@@ -1,9 +1,25 @@
 plugins {
     id 'java'
+    id("maven-publish")
 }
+
 
 group 'taigo.validation'
 version '5.5.2'
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/TaigoStudio/TAIGO.ID.Plugins"
+            credentials {
+                username = System.getenv("TaigoStudio")
+                password = System.getenv("")
+            }
+        }
+    }
+}
+
 
 repositories {
     mavenCentral()
@@ -11,6 +27,12 @@ repositories {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven { url 'https://jitpack.io' }
+
 }
 
 dependencies {
@@ -23,7 +45,7 @@ test {
     useJUnitPlatform()
 }
 
-task Jar(type: Jar) {
+task BuildJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'taigo.validation.Core'
     }
